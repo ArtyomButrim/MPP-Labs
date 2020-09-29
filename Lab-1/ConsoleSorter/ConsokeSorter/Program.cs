@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TextGenerator;
+using SortLibrary;
 
 namespace ConsokeSorter
 {
@@ -12,8 +13,20 @@ namespace ConsokeSorter
     {
         static async Task Main(string[] args)
         {
-            TextGenerator.Generator.GenerateTextFileBySize(1024*1024*1024, "d:/test.txt");
-            Console.WriteLine("Complete");
+            Console.WriteLine("Input path with name and extention for creationfile:");
+            string path = Console.ReadLine();
+
+            Console.WriteLine("Input path name and extention for creation sort file:");
+            string pathForSortFile = Console.ReadLine();
+
+            Console.WriteLine("Input size of file:");
+            long fileSize = Convert.ToInt64(Console.ReadLine());
+            
+            await Generator.GenerateTextFileBySize(fileSize, path);
+            Console.WriteLine("Generation Complete");
+
+            await SortLibrary.Sorter.SortTextFile(path, pathForSortFile);
+            Console.WriteLine("sorting Complete");
             Console.ReadLine();
         }
     }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsokeSorter", "ConsokeSor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextGenerator", "TextGenerator\TextGenerator.csproj", "{792D42D3-48F8-47FA-B23E-E0A0A70D530E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortLibrary", "SortLibrary\SortLibrary.csproj", "{BF0867C6-897A-47E9-9AF0-430980A68526}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{792D42D3-48F8-47FA-B23E-E0A0A70D530E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{792D42D3-48F8-47FA-B23E-E0A0A70D530E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{792D42D3-48F8-47FA-B23E-E0A0A70D530E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0867C6-897A-47E9-9AF0-430980A68526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0867C6-897A-47E9-9AF0-430980A68526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0867C6-897A-47E9-9AF0-430980A68526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0867C6-897A-47E9-9AF0-430980A68526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
