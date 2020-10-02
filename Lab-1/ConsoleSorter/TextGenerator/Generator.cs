@@ -12,23 +12,22 @@ namespace TextGenerator
     {
         public static async Task GenerateTextFileBySize(long fileSize, string directoryForCreation)
         {
-            char[] symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+            char[] symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '\n'};
 
-            using (var fs = new FileStream(directoryForCreation, FileMode.OpenOrCreate))
-            using (var sw = new StreamWriter(fs,Encoding.Default))
+            using (var sw = new StreamWriter(directoryForCreation,false,Encoding.Unicode))
             {
                 var Random = new Random();
-                long size;
+                long size = 0;
 
-                while ((size = new System.IO.FileInfo(directoryForCreation).Length) < fileSize)
+                while ( size < fileSize)
                 {
-                    int stringLength = Random.Next(20, 400);
-
-                    for (int i= 0; i < stringLength; i++ )
+                    int stringLength = Random.Next(20, 240);
+                    for (int i = 0; i < stringLength; i++)
                     {
+
                         sw.Write(symbols[Random.Next(0, symbols.Length - 1)]);
+                        size++;
                     }
-                    sw.Write('\n');
                 }
             }
         }

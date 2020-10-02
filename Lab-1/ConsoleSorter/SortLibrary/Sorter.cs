@@ -26,7 +26,7 @@ namespace SortLibrary
 
                 while ((line = streamReader.ReadLine()) != null)
                 {
-                    using (var fStream = new FileStream($"d:/Temp/time{Array.IndexOf(symbols, line[0])}.txt", FileMode.OpenOrCreate))
+                    using (var fStream = new FileStream($"d:/Temp/time{Array.IndexOf(symbols, line[0])}.txt", FileMode.Open))
                     {
                         using (var writer = new StreamWriter(fStream, Encoding.Default))
                         {
