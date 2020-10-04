@@ -28,6 +28,9 @@ namespace TextGenerator
                         sw.Write(symbols[Random.Next(0, symbols.Length - 1)]);
                         size++;
                     }
+
+                    sw.Write('\n');
+                    size++;
                 }
             }
         }
