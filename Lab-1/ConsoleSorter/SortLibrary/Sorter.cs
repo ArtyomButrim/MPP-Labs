@@ -70,46 +70,66 @@ namespace SortLibrary
                         sw.WriteLine(str);
                     }
                 }
+
+                list.Clear();
             }
 
+            MergeSort("d:/Temp/time0.txt", "d:/Temp/time1.txt", 11);
+        }
 
-
-            /*using (var streamReader = new StreamReader(pathToFile, Encoding.Unicode))
+        public static void MergeSort(string path1, string path2,int num)
+        {
+            string line1;
+            string line2;
+            using (var sw = new StreamWriter($"d:/Temp/time{num}.txt", false, Encoding.Unicode))
             {
-                string line;
-
-                while ((line = streamReader.ReadLine()) != null)
+                using (var sr1 = new StreamReader(path1, Encoding.Unicode))
                 {
-                    using (var writer = new StreamWriter($"d:/Temp/time{Array.IndexOf(symbols, line[0])}.txt", true, Encoding.Unicode))
+                    using (var sr2 = new StreamReader(path2, Encoding.Unicode))
                     {
-                        writer.WriteLine(line);
+                        line1 = sr1.ReadLine();
+                        line2 = sr2.ReadLine();
+                        while ((line1 != null) && (line2 != null))
+                        {
+                            if (String.Compare(line1,line2,false) == 0)
+                            {
+                                sw.WriteLine(line1);
+                                sw.WriteLine(line2);
+                                line1 = sr1.ReadLine();
+                                line2 = sr2.ReadLine();
+                            }
+                            else if(String.Compare(line1, line2, false) > 0)
+                            {
+                                sw.WriteLine(line2);
+                                line2 = sr2.ReadLine();
+                            }
+                            else if (String.Compare(line1, line2, false) < 0)
+                            {
+                                sw.WriteLine(line1);
+                                line1 = sr1.ReadLine();
+                            }
+                        }
 
+                        if (line1 == null)
+                        {
+                            while ((line2 = sr2.ReadLine()) != null)
+                            {
+                                sw.WriteLine(line2);
+                            }
+                        }
+                        else
+                        {
+                            while ((line1 = sr1.ReadLine()) != null)
+                            {
+                                sw.WriteLine(line1);
+                            }
+                        }
                     }
                 }
             }
 
-            using (var streamWriter = new StreamWriter(pathToSortFile,false, Encoding.Unicode))
-            {
-                foreach (char symbol in symbols)
-                {
-                    var list = new List<string>();
-                    using (var streamReader = new StreamReader($"d:/Temp/time{Array.IndexOf(symbols, symbol)}.txt", Encoding.Unicode))
-                    {
-                        string line;
-                        while ((line = streamReader.ReadLine()) != null)
-                        {
-                            list.Add(line);
-                        }
-                    }
-
-                    list.Sort();
-
-                    foreach (string str in list)
-                    {
-                        streamWriter.WriteLine(str);
-                    }
-                }*/
-            
+           // File.Delete(path1);
+            //File.Delete(path2);
         }
     }
 }
