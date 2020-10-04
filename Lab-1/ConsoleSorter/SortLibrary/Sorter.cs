@@ -10,18 +10,46 @@ namespace SortLibrary
 {
     public class Sorter
     {
-        // static readonly char[] symbols = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-
         public static async Task SortTextFile(string pathToFile, string pathToSortFile)
         {
-            for (int i = 0; i<=10; i++)
-            { 
+            var fileSize = new System.IO.FileInfo(pathToFile).Length;
+
+            int numberOfFiles;
+            numberOfFiles = Convert.ToInt32(fileSize / 100000000);
+            numberOfFiles++;
+            
+            SplitTextFile(pathToFile, numberOfFiles);
+
+            for (int i = 0; i < numberOfFiles; i++)
+            {
+                SortSubFile($"d:/Temp/time{i}.txt");
+            }
+
+            numberOfFiles++;
+            MergeSort($"d:/Temp/time{0}.txt", $"d:/Temp/time{1}.txt", $"d:/Temp/time{numberOfFiles}.txt");
+            
+            int num = numberOfFiles-1;
+            int num2=2;
+            for (int i = 0; i <num-3;i++)
+            {
+                MergeSort($"d:/Temp/time{numberOfFiles}.txt", $"d:/Temp/time{num2}.txt", $"d:/Temp/time{numberOfFiles+1}.txt");
+                numberOfFiles++;
+                num2++;
+            }
+
+            MergeSort($"d:/Temp/time{numberOfFiles}.txt", $"d:/Temp/time{num2}.txt", pathToSortFile);
+        }
+
+        public static void SplitTextFile(string path, int filesNumber)
+        {
+            for (int i = 0; i < filesNumber; i++)
+            {
                 using (var file = File.Create($"d:/Temp/time{i}.txt")) { };
             }
 
-            using (var streamReader = new StreamReader(pathToFile, Encoding.Unicode))
+            using (var streamReader = new StreamReader(path, Encoding.Unicode))
             {
-                for (int i = 0; i <= 10; i++)
+                for (int i = 0; i < filesNumber; i++)
                 {
                     string line;
                     int size = 0;
@@ -47,41 +75,38 @@ namespace SortLibrary
                 }
 
             }
-
-            for (int i = 0; i <= 10; i++)
-            {
-                string line;
-                var list = new List<string>();
-                using (var sr = new StreamReader($"d:/Temp/time{i}.txt", Encoding.Unicode))
-                {
-
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        list.Add(line);
-                    }
-                }
-
-                list.Sort(StringComparer.Ordinal);
-
-                using (var sw = new StreamWriter($"d:/Temp/time{i}.txt", false, Encoding.Unicode))
-                {
-                    foreach (string str in list)
-                    {
-                        sw.WriteLine(str);
-                    }
-                }
-
-                list.Clear();
-            }
-
-            MergeSort("d:/Temp/time0.txt", "d:/Temp/time1.txt", 11);
         }
 
-        public static void MergeSort(string path1, string path2,int num)
+        public static void SortSubFile(string path)
+        {
+            string line;
+            var list = new List<string>();
+            using (var sr = new StreamReader(path, Encoding.Unicode))
+            {
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
+            }
+
+            list.Sort(StringComparer.Ordinal);
+
+            using (var sw = new StreamWriter(path, false, Encoding.Unicode))
+            {
+                foreach (string str in list)
+                {
+                    sw.WriteLine(str);
+                }
+            }
+
+            list.Clear();
+        }
+        public static void MergeSort(string path1, string path2,string pathToSave)
         {
             string line1;
             string line2;
-            using (var sw = new StreamWriter($"d:/Temp/time{num}.txt", false, Encoding.Unicode))
+            using (var sw = new StreamWriter(pathToSave, false, Encoding.Unicode))
             {
                 using (var sr1 = new StreamReader(path1, Encoding.Unicode))
                 {
@@ -128,8 +153,8 @@ namespace SortLibrary
                 }
             }
 
-           // File.Delete(path1);
-            //File.Delete(path2);
+            File.Delete(path1);
+            File.Delete(path2);
         }
     }
 }

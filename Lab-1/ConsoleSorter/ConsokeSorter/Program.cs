@@ -38,7 +38,7 @@ namespace ConsokeSorter
             time1.Stop();
             string time2 = time1.ElapsedMilliseconds.ToString();
             
-            Console.WriteLine("sorting Complete");
+            Console.WriteLine("Sorting Complete");
             Console.WriteLine(time2);
             Console.ReadLine();
         }
