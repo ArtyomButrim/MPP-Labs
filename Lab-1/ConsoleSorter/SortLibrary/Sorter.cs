@@ -55,7 +55,7 @@ namespace SortLibrary
                     int size = 0;
                     using (var streamWriter = new StreamWriter($"d:/Temp/time{i}.txt", true, Encoding.Unicode))
                     {
-                        if (i != 10)
+                        if (i != filesNumber - 1)
                         {
                             while (size < 100000000)
                             {
