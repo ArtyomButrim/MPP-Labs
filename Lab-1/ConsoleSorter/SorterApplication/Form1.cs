@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TextGenerator;
+using System.IO;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SorterApplication
 {
@@ -22,17 +25,52 @@ namespace SorterApplication
 
         private async void btnSort_Click(object sender, EventArgs e)
         {
+            bool isCorrect = true;
             string pathForOriginTextFile;
             pathForOriginTextFile = txtPathForOriginalFile.Text.ToString();
 
             string pathForSavingTextFile;
             pathForSavingTextFile = txtPathForSaveSortFile.Text.ToString();
 
-            await Sorter.SortTextFile(pathForOriginTextFile, pathForSavingTextFile);
+            var time = new Stopwatch();
+            time.Start();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    Sorter.SortTextFile(pathForOriginTextFile, pathForSavingTextFile);
+                    isCorrect = true;
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show(@"Incorrect file path entered!", @"Error",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    isCorrect = false;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show(@"Incorrect file path entered!", @"Error",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    isCorrect = false;
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show(@"Incorrect file path entered!", @"Error",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    isCorrect = false;
+                }
+            });
+            if (isCorrect)
+            {
+                MessageBox.Show(@"Sorting is complete!"+"\n"+$"Time: {time.ElapsedMilliseconds.ToString()} мс", @"Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private async void btnGenerate_Click_1(object sender, EventArgs e)
         {
+            bool isCorrect = true;
             string pathForSavingTextFile;
             pathForSavingTextFile = txtPathToSaveOriginalFile.Text.ToString();
 
@@ -40,7 +78,37 @@ namespace SorterApplication
             long fileSize;
             fileSize=ReturnSizeOfFile(size);
 
-            await Generator.GenerateTextFileBySize(fileSize, pathForSavingTextFile);
+            var time = new Stopwatch();
+            time.Start();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    Generator.GenerateTextFileBySize(fileSize, pathForSavingTextFile);
+                    isCorrect = true;
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show(@"Incorrect file path entered!", @"Error",
+                       MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    isCorrect = false;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show(@"Incorrect file path entered!", @"Error",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    isCorrect = false;
+                }
+
+            });
+
+            if (isCorrect)
+            {
+                MessageBox.Show(@"Sorting is complete!" + "\n" + $"Time: {time.ElapsedMilliseconds.ToString()} мс", @"Information",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

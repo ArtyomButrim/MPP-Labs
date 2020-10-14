@@ -7,6 +7,7 @@ using System.Timers;
 using TextGenerator;
 using SortLibrary;
 using System.Diagnostics;
+using System.IO;
 
 namespace ConsokeSorter
 {
@@ -14,33 +15,121 @@ namespace ConsokeSorter
     {
         static async Task Main()
         {
-            Console.WriteLine("Input path with name and extention for creationfile:");
-            string path = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Commands:");
+                Console.WriteLine("1. Generate file;");
+                Console.WriteLine("2. Sort file;");
+                Console.WriteLine("3. Close programm;");
+                Console.Write("Input nessecary command: ");
 
-            Console.WriteLine("Input path name and extention for creation sort file:");
-            string pathForSortFile = Console.ReadLine();
-            
-            Console.WriteLine("Input size of file:");
-            long fileSize = Convert.ToInt64(Console.ReadLine());
-           
-            var sw = new Stopwatch();
-            sw.Start();
-            await Generator.GenerateTextFileBySize(fileSize, path);
-            sw.Stop();
-            var time = sw.ElapsedMilliseconds.ToString();
-            
-            Console.WriteLine(time);
-            Console.WriteLine("Generation Complete");
+                int actionNumber;
+                try
+                {
+                    actionNumber = int.Parse(Console.ReadLine() ?? string.Empty);
+                }
+                catch
+                {
+                    Console.WriteLine("Error: invalid character entered!");
+                    Console.WriteLine("Press ENTER to end the program...");
+                    Console.ReadLine();
+                    return;
+                }
 
-            var time1 = new Stopwatch();
-            time1.Start();
-            await SortLibrary.Sorter.SortTextFile(path, pathForSortFile);
-            time1.Stop();
-            string time2 = time1.ElapsedMilliseconds.ToString();
-            
-            Console.WriteLine("Sorting Complete");
-            Console.WriteLine(time2);
-            Console.ReadLine();
+                switch (actionNumber)
+                {
+                    case 1:
+                        Console.Write("Enter the path to save the generated file: ");
+                        string pathToSaveGeneratedFile = Console.ReadLine();
+                        Console.Write("Enter the size of the generated file in bytes: ");
+
+                        int fileSizeInBytes;
+
+                        try
+                        {
+                            fileSizeInBytes = int.Parse(Console.ReadLine() ?? string.Empty);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Error: invalid data entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+
+                        try
+                        {
+                            Generator.GenerateTextFileBySize(fileSizeInBytes / 2, pathToSaveGeneratedFile);
+                        }
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Error: incorrect file path entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            Console.WriteLine("Error: incorrect file path entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+
+                        Console.WriteLine($"Success!\n");
+                        break;
+                    case 2:
+                        Console.Write("Enter the path to the file you want to sort: ");
+                        string pathToSourceFile = Console.ReadLine();
+                        Console.Write("Enter the path to save the sorted file: ");
+                        string pathToSortedFile = Console.ReadLine();
+
+                        var sorter = new Sorter();
+                        try
+                        {
+                            Sorter.SortTextFile(pathToSourceFile, pathToSortedFile);
+                        }
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Error: incorrect file path entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            Console.WriteLine("Error: incorrect file path entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Console.WriteLine("Error: incorrect file path entered!");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"An error occurred while sorting! ERROR: {ex.Message}.");
+                            Console.WriteLine("Press ENTER to end the program...");
+                            Console.ReadLine();
+                            return;
+                        }
+
+                        Console.WriteLine($"Success!\n");
+                        break;
+                    case 3:
+                        Console.WriteLine("Press ENTER to end the program ...");
+                        Console.ReadLine();
+                        return;
+                    default:
+                        Console.WriteLine("Error: a non-existent command has been introduced!\n");
+                        break;
+                }
+
+            } while (true);
         }
     }
 }

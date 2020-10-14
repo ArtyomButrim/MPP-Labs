@@ -30,6 +30,7 @@ namespace SortLibrary
             
             int num = numberOfFiles-1;
             int num2=2;
+           
             for (int i = 0; i <num-3;i++)
             {
                 MergeSort($"d:/Temp/time{numberOfFiles}.txt", $"d:/Temp/time{num2}.txt", $"d:/Temp/time{numberOfFiles+1}.txt");
