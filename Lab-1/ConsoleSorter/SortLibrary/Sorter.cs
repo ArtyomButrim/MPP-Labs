@@ -12,70 +12,65 @@ namespace SortLibrary
     {
         public static async Task SortTextFile(string pathToFile, string pathToSortFile)
         {
-            var fileSize = new System.IO.FileInfo(pathToFile).Length;
 
             int numberOfFiles;
-            numberOfFiles = Convert.ToInt32(fileSize / 100000000);
-            numberOfFiles++;
-            
-            SplitTextFile(pathToFile, numberOfFiles);
+            numberOfFiles = SplitTextFile(pathToFile);
 
             for (int i = 0; i < numberOfFiles; i++)
             {
-                SortSubFile($"d:/Temp/time{i}.txt");
+                SortSubFile($"d:/Temp2/time{i}.txt");
             }
 
             numberOfFiles++;
-            MergeSort($"d:/Temp/time{0}.txt", $"d:/Temp/time{1}.txt", $"d:/Temp/time{numberOfFiles}.txt");
+            MergeSort($"d:/Temp2/time{0}.txt", $"d:/Temp2/time{1}.txt", $"d:/Temp2/time{numberOfFiles}.txt");
             
             int num = numberOfFiles-1;
             int num2=2;
            
             for (int i = 0; i <num-3;i++)
             {
-                MergeSort($"d:/Temp/time{numberOfFiles}.txt", $"d:/Temp/time{num2}.txt", $"d:/Temp/time{numberOfFiles+1}.txt");
+                MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{num2}.txt", $"d:/Temp2/time{numberOfFiles+1}.txt");
                 numberOfFiles++;
                 num2++;
             }
 
-            MergeSort($"d:/Temp/time{numberOfFiles}.txt", $"d:/Temp/time{num2}.txt", pathToSortFile);
+            MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{num2}.txt", pathToSortFile);
         }
 
-        public static void SplitTextFile(string path, int filesNumber)
+        public static int SplitTextFile(string path)
         {
-            for (int i = 0; i < filesNumber; i++)
-            {
-                using (var file = File.Create($"d:/Temp/time{i}.txt")) { };
-            }
+            int filesNumber = 0;
+            int textSize = 0;
+            string line;
+            bool isReady = false;
 
             using (var streamReader = new StreamReader(path, Encoding.Unicode))
             {
-                for (int i = 0; i < filesNumber; i++)
+                while (isReady == false)
                 {
-                    string line;
-                    int size = 0;
-                    using (var streamWriter = new StreamWriter($"d:/Temp/time{i}.txt", true, Encoding.Unicode))
+                    using (var streamWriter = new StreamWriter($"d:/Temp2/time{filesNumber}.txt", true, Encoding.Unicode))
                     {
-                        if (i != filesNumber - 1)
-                        {
-                            while (size < 100000000)
-                            {
-                                line = streamReader.ReadLine();
-                                streamWriter.WriteLine(line);
-                                size += Encoding.Unicode.GetByteCount(line);
-                            }
-                        }
-                        else
-                        {
-                            while ((line = streamReader.ReadLine()) != null)
-                            {
-                                streamWriter.WriteLine(line);
-                            }
-                        }
-                    }
-                }
 
+                        while (((line = streamReader.ReadLine()) != null) && (textSize <= 104857600))
+                        {
+                            streamWriter.WriteLine(line);
+                            textSize += Encoding.Unicode.GetByteCount(line);
+                        }
+
+                        textSize = 0;
+                        filesNumber++;
+                       
+                    }
+
+                    if (line == null)
+                    {
+                        isReady = true;
+                    }
+
+                }
             }
+
+            return filesNumber;
         }
 
         public static void SortSubFile(string path)
