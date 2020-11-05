@@ -1,16 +1,9 @@
 ﻿using SortLibrary;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TextGenerator;
 using System.IO;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace SorterApplication
@@ -22,15 +15,14 @@ namespace SorterApplication
             InitializeComponent();
         }
 
-
         private async void btnSort_Click(object sender, EventArgs e)
         {
             bool isCorrect = true;
             string pathForOriginTextFile;
-            pathForOriginTextFile = txtPathForOriginalFile.Text.ToString();
+            pathForOriginTextFile = txtPathForOriginalFile.Text;
 
             string pathForSavingTextFile;
-            pathForSavingTextFile = txtPathForSaveSortFile.Text.ToString();
+            pathForSavingTextFile = txtPathForSaveSortFile.Text;
 
             var time = new Stopwatch();
             time.Start();
@@ -105,7 +97,7 @@ namespace SorterApplication
 
             if (isCorrect)
             {
-                MessageBox.Show(@"Sorting is complete!" + "\n" + $"Time: {time.ElapsedMilliseconds.ToString()} мс", @"Information",
+                MessageBox.Show(@"Generation is complete!" + "\n" + $"Time: {time.ElapsedMilliseconds.ToString()} мс", @"Information",
                        MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 

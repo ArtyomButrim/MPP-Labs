@@ -13,7 +13,7 @@ namespace ConsokeSorter
 {
     class Program
     {
-        static async Task Main()
+        static void Main()
         {
             do
             {
@@ -84,7 +84,6 @@ namespace ConsokeSorter
                         Console.Write("Enter the path to save the sorted file: ");
                         string pathToSortedFile = Console.ReadLine();
 
-                        var sorter = new Sorter();
                         try
                         {
                             Sorter.SortTextFile(pathToSourceFile, pathToSortedFile);
@@ -128,7 +127,6 @@ namespace ConsokeSorter
                         Console.WriteLine("Error: a non-existent command has been introduced!\n");
                         break;
                 }
-
             } while (true);
         }
     }

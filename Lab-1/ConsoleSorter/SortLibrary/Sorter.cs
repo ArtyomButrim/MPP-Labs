@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SortLibrary
 {
     public class Sorter
     {
-        public static async Task SortTextFile(string pathToFile, string pathToSortFile)
+        public static void SortTextFile(string pathToFile, string pathToSortFile)
         {
 
             int numberOfFiles;
@@ -24,17 +21,17 @@ namespace SortLibrary
             numberOfFiles++;
             MergeSort($"d:/Temp2/time{0}.txt", $"d:/Temp2/time{1}.txt", $"d:/Temp2/time{numberOfFiles}.txt");
             
-            int num = numberOfFiles-1;
-            int num2=2;
+            int numberOfFileToSort = numberOfFiles - 1;
+            int secondNumberOfFileToSort = 2;
            
-            for (int i = 0; i <num-3;i++)
+            for (int i = 0; i < numberOfFileToSort - 3; i++)
             {
-                MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{num2}.txt", $"d:/Temp2/time{numberOfFiles+1}.txt");
+                MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{secondNumberOfFileToSort}.txt", $"d:/Temp2/time{numberOfFiles + 1}.txt");
                 numberOfFiles++;
-                num2++;
+                secondNumberOfFileToSort++;
             }
 
-            MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{num2}.txt", pathToSortFile);
+            MergeSort($"d:/Temp2/time{numberOfFiles}.txt", $"d:/Temp2/time{secondNumberOfFileToSort}.txt", pathToSortFile);
         }
 
         public static int SplitTextFile(string path)
@@ -50,7 +47,6 @@ namespace SortLibrary
                 {
                     using (var streamWriter = new StreamWriter($"d:/Temp2/time{filesNumber}.txt", true, Encoding.Unicode))
                     {
-
                         while (((line = streamReader.ReadLine()) != null) && (textSize <= 104857600))
                         {
                             streamWriter.WriteLine(line);
@@ -58,29 +54,27 @@ namespace SortLibrary
                         }
 
                         textSize = 0;
-                        filesNumber++;
-                       
+                        filesNumber++;  
                     }
 
                     if (line == null)
                     {
                         isReady = true;
                     }
-
                 }
             }
 
             return filesNumber;
         }
 
-        public static void SortSubFile(string path)
+        public static void SortSubFile(string pathToSubFileTOBeSorted)
         {
             string line;
-            var list = new List<string>();
-            using (var sr = new StreamReader(path, Encoding.Unicode))
-            {
+            var list = new List<string>();  //list??????????
 
-                while ((line = sr.ReadLine()) != null)
+            using (var streamReader = new StreamReader(pathToSubFileTOBeSorted, Encoding.Unicode))
+            {
+                while ((line = streamReader.ReadLine()) != null)//line?????
                 {
                     list.Add(line);
                 }
@@ -88,20 +82,22 @@ namespace SortLibrary
 
             list.Sort(StringComparer.Ordinal);
 
-            using (var sw = new StreamWriter(path, false, Encoding.Unicode))
+            using (var streamWriter = new StreamWriter(pathToSubFileTOBeSorted, false, Encoding.Unicode))
             {
                 foreach (string str in list)
                 {
-                    sw.WriteLine(str);
+                    streamWriter.WriteLine(str);
                 }
             }
 
             list.Clear();
         }
-        public static void MergeSort(string path1, string path2,string pathToSave)
+
+        public static void MergeSort(string path1, string path2,string pathToSave)//path1/2????
         {
             string line1;
-            string line2;
+            string line2;//line1/2
+
             using (var sw = new StreamWriter(pathToSave, false, Encoding.Unicode))
             {
                 using (var sr1 = new StreamReader(path1, Encoding.Unicode))
@@ -110,21 +106,22 @@ namespace SortLibrary
                     {
                         line1 = sr1.ReadLine();
                         line2 = sr2.ReadLine();
+
                         while ((line1 != null) && (line2 != null))
                         {
-                            if (String.Compare(line1,line2,false) == 0)
+                            if (string.Compare(line1,line2,false) == 0)
                             {
                                 sw.WriteLine(line1);
                                 sw.WriteLine(line2);
                                 line1 = sr1.ReadLine();
                                 line2 = sr2.ReadLine();
                             }
-                            else if(String.Compare(line1, line2, false) > 0)
+                            else if(string.Compare(line1, line2, false) > 0)
                             {
                                 sw.WriteLine(line2);
                                 line2 = sr2.ReadLine();
                             }
-                            else if (String.Compare(line1, line2, false) < 0)
+                            else if (string.Compare(line1, line2, false) < 0)
                             {
                                 sw.WriteLine(line1);
                                 line1 = sr1.ReadLine();
