@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B80DDAE2-F5D3-4855-A2D6-9F02D7B2BFD8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PicoPhotoshopForm</RootNamespace>
-    <AssemblyName>PicoPhotoshopForm</AssemblyName>
+    <RootNamespace>WindowsFormsApp1</RootNamespace>
+    <AssemblyName>WindowsFormsApp1</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
