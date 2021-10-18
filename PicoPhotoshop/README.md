@@ -2,7 +2,7 @@
 
 ## Task:
 
-Develop a program based on WinForms and WPF library, which allows you to view and edit photos
+Develop a program based on WinForms and WPF library, which allows you to view and edit photos.
 
 ### The list of commands:
 
